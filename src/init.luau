@@ -55,8 +55,6 @@ local function _loadModule(module: ModuleScript)
 
 	if ENVIRONMENT == "Server" and not _isInited and typeof(loadedModule.client) == "table" then
 		Networker:setupService(module.Name, loadedModule)
-	elseif ENVIRONMENT == "Client" and not _isInited and typeof(loadedModule.server) == "table" then
-		Networker:setupController(module.Name, loadedModule)
 	end
 
 	if isShouldInit then

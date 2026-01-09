@@ -2,8 +2,6 @@ local EventsRecorderserver = require(script.EventRecorderServer)
 
 local NetworkerServer = {}
 
-local _remoteEvent: RemoteEvent = script.Parent.Events.RemoteEvent
-local _unreliableRemoteEvent: UnreliableRemoteEvent = script.Parent.Events.UnreliableRemoteEvent
 local _remoteFunction: RemoteFunction = script.Parent.Events.RemoteFunction
 
 function NetworkerServer:setupService(serviceName: string, service: {})

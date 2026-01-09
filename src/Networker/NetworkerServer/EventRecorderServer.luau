@@ -1,9 +1,5 @@
 local EventRecorderServer = {}
 
-local _remoteEvent = Instance.new("RemoteEvent")
-_remoteEvent.Parent = script.Parent.Parent.Events
-local _unreliableRemoteEvent = Instance.new("UnreliableRemoteEvent")
-_unreliableRemoteEvent.Parent = script.Parent.Parent.Events
 local _remoteFunction = Instance.new("RemoteFunction")
 _remoteFunction.Parent = script.Parent.Parent.Events
 

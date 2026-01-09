@@ -127,7 +127,7 @@ if ENVIRONMENT == "Server" then
 else
 	return setmetatable(Link, {
 		__call = function(...)
-			Networker:getService(...)
+			return Networker:getService(...)
 		end,
 	})
 end

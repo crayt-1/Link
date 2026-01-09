@@ -122,4 +122,12 @@ function Link.load(modules: Instance)
 	end
 end
 
-return Link
+if ENVIRONMENT == "Server" then
+	return Link
+else
+	return setmetatable(Link, {
+		__call = function(...)
+			Networker:getService(...)
+		end,
+	})
+end

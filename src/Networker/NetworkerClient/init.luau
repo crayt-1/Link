@@ -2,7 +2,7 @@ local NetworkerClient = {}
 
 local _remoteFunction: RemoteFunction = script.Parent.Events.RemoteFunction
 
-local function _getService(_, serviceName: string)
+function NetworkerClient:getService(_, serviceName: string)
 	local methodsFromServer = {}
 
 	while not script.Parent:GetAttribute("IsLoaded") do
@@ -22,6 +22,4 @@ local function _getService(_, serviceName: string)
 	return methodsFromServer
 end
 
-return setmetatable(NetworkerClient, {
-	__call = _getService,
-})
+return NetworkerClient

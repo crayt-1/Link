@@ -2,7 +2,7 @@ local EventsRecorderserver = require(script.EventRecorderServer)
 
 local NetworkerServer = {}
 
-local _remoteFunction: RemoteFunction = script.Parent.Events.RemoteFunction
+type Func = (any?) -> any?
 
 function NetworkerServer:setupService(serviceName: string, service: {})
 	local clientTable = service.client
@@ -11,16 +11,16 @@ function NetworkerServer:setupService(serviceName: string, service: {})
 		local eventInstance = EventsRecorderserver:addEvent(serviceName, key, value)
 		clientTable[key] = eventInstance
 			and {
-				Connect = function(self: typeof(clientTable), callback: (any?) -> any?): RBXScriptConnection
-					return eventInstance.OnServerEvent:Connect(callback)
+				Connect = function(_, func: Func): RBXScriptConnection
+					return eventInstance.OnServerEvent:Connect(func)
 				end,
-				Once = function(self: typeof(clientTable), callback: (any?) -> any?): RBXScriptConnection
-					return eventInstance.OnServerEvent:Once(callback)
+				Once = function(_, func: Func): RBXScriptConnection
+					return eventInstance.OnServerEvent:Once(func)
 				end,
-				Fire = function(self: typeof(clientTable), player: Player, ...)
+				Fire = function(_, player: Player, ...)
 					eventInstance:FireClient(player, ...)
 				end,
-				FireAll = function(self: typeof(clientTable), ...)
+				FireAll = function(_, ...)
 					eventInstance:FireAllClients(...)
 				end,
 			}

@@ -24,7 +24,6 @@ local _uiFolder = ENVIRONMENT == "Client" and script:FindFirstChild("UIContainer
 _uiFolder.Name = "UIContainer"
 _uiFolder.Parent = script
 
-Link.Networker = Networker
 Link.Events = Events
 Link.onStart = nil :: (() -> ())?
 Link.onInit = nil :: (() -> ())?

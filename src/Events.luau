@@ -1,6 +1,13 @@
-local ServerNetworkTypes = require(script.Parent.Networker.ServerNetworkTypes)
+type Callback = (any?) -> any?
+
+export type ServerEvent = {
+	Connect: (ServerEvent, Callback, ...any?) -> RBXScriptConnection,
+	Once: (ServerEvent, Callback, ...any?) -> RBXScriptConnection,
+	Fire: (ServerEvent, Player, ...any?) -> (),
+	FireAll: (ServerEvent, ...any?) -> (),
+}
+
 return {
-	RemoteEvent = Instance.new("RemoteEvent") :: ServerNetworkTypes.ServerEvent,
-	UnreliableRemoteEvent = Instance.new("UnreliableRemoteEvent") :: ServerNetworkTypes.ServerEvent,
-	--RemoteFunction = Instance.new("RemoteFunction") :: ServerNetworkTypes.ServerEvent,
+	RemoteEvent = Instance.new("RemoteEvent") :: ServerEvent,
+	UnreliableRemoteEvent = Instance.new("UnreliableRemoteEvent") :: ServerEvent,
 }

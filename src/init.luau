@@ -5,7 +5,6 @@ local ServerScriptService = game:GetService("ServerScriptService")
 local StarterGui = game:GetService("StarterGui")
 
 local Networker = require(script.Networker)
-local Events = require(script.Events)
 
 local PARALLEL_TAG = workspace:GetAttribute("ParallelTag") or "parallel"
 local ENVIRONMENT = RunService:IsServer() and "Server" or "Client"
@@ -24,7 +23,19 @@ local _uiFolder = ENVIRONMENT == "Client" and script:FindFirstChild("UIContainer
 _uiFolder.Name = "UIContainer"
 _uiFolder.Parent = script
 
-Link.Events = Events
+type Func = (any?) -> any?
+
+type Signal = {
+	connect: (self: Signal, func: Func) -> RBXScriptConnection,
+	once: (self: Signal, func: Func) -> RBXScriptConnection,
+	fire: (self: Signal, player: Player, ...any?) -> (),
+	fireAll: (self: Signal, ...any?) -> (),
+}
+
+-- type RemoteProperty = {
+-- 	set: (self: RemoteProperty, newValue: any?) -> (),
+-- }
+
 Link.onStart = nil :: (() -> ())?
 Link.onInit = nil :: (() -> ())?
 
@@ -34,8 +45,7 @@ local function _loadModule(module: ModuleScript)
 		actor.Name = `{module.Name}Actor`
 		actor.Parent = _actorsFolder
 
-		local loader: Script = script.Loader:Clone()
-		loader.RunContext = Enum.RunContext[ENVIRONMENT]
+		local loader: Script = script["Loader" .. ENVIRONMENT]:Clone()
 		loader.Enabled = false
 		loader.Name = `{module.Name}Loader`
 		loader.Parent = actor
@@ -120,6 +130,18 @@ function Link.load(modules: Instance)
 		task.spawn(Link.onStart)
 	end
 end
+
+function Link.createSignal(): Signal
+	return Instance.new("RemoteEvent") :: Signal
+end
+
+function Link.createUnreliableSignal(): Signal
+	return Instance.new("UnreliableRemoteEvent") :: Signal
+end
+
+-- function Link.createProperty(initialValue: any?): RemoteProperty
+-- 	return "RemoteProperty" :: RemoteProperty, initialValue
+-- end
 
 if ENVIRONMENT == "Server" then
 	return Link

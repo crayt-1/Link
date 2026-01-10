@@ -11,16 +11,16 @@ function NetworkerServer:setupService(serviceName: string, service: {})
 		local eventInstance = EventsRecorderserver:addEvent(serviceName, key, value)
 		clientTable[key] = eventInstance
 			and {
-				Connect = function(_, func: Func): RBXScriptConnection
+				connect = function(_, func: Func): RBXScriptConnection
 					return eventInstance.OnServerEvent:Connect(func)
 				end,
-				Once = function(_, func: Func): RBXScriptConnection
+				once = function(_, func: Func): RBXScriptConnection
 					return eventInstance.OnServerEvent:Once(func)
 				end,
-				Fire = function(_, player: Player, ...)
+				fire = function(_, player: Player, ...: any?)
 					eventInstance:FireClient(player, ...)
 				end,
-				FireAll = function(_, ...)
+				fireAll = function(_, ...: any?)
 					eventInstance:FireAllClients(...)
 				end,
 			}

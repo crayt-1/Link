@@ -14,13 +14,13 @@ function NetworkerClient:getService(_, serviceName: string)
 	for _, eventInstance in script.Parent.Services:WaitForChild(serviceName, math.huge):GetChildren() do
 		if eventInstance.ClassName ~= "Configuration" then
 			serverTable[eventInstance.Name] = {
-				Connect = function(_, func: Func): RBXScriptConnection
+				connect = function(_, func: Func): RBXScriptConnection
 					return eventInstance.OnClientEvent:Connect(func)
 				end,
-				Once = function(_, func: Func): RBXScriptConnection
+				once = function(_, func: Func): RBXScriptConnection
 					return eventInstance.OnClientEvent:Once(func)
 				end,
-				Fire = function(_, ...)
+				fire = function(_, ...)
 					eventInstance:FireServer(...)
 				end,
 			}
